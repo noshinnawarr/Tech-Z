@@ -4,6 +4,8 @@ A system that lets anyone monitor a 3-room office's lights/fans and power usage 
 real-time web dashboard and a Discord bot, both backed by one shared backend. Built for the
 "Lights, Fans, Discord: The Boss's Big Idea" hackathon (see `docs/`).
 
+[Demo Video](https://drive.google.com/file/d/17lWKFRd0iK4goaGBjKjcHBaT3nJUKCYx/view?usp=drive_link)
+
 ## Architecture
 
 ```
