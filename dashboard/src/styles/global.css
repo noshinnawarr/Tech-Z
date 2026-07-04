@@ -1,0 +1,643 @@
+:root {
+  color-scheme: dark;
+  --bg: #0f1420;
+  --panel: #171d2c;
+  --panel-border: #262e42;
+  --text: #e7ebf5;
+  --text-dim: #8993ac;
+  --accent: #5fb3ff;
+  --on: #ffd76b;
+  --on-glow: #ffd76b;
+  --off: #3a4258;
+  --alert-afterHours: #ff6b6b;
+  --alert-continuousRoom: #ff9f43;
+  --status-good: #4ade80;
+  --status-warning: #ff9f43;
+  --wood: #8a6a4f;
+  --fabric: #6b7fa3;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.app-header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.conn-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.conn-dot--live {
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+}
+
+.conn-dot--down {
+  background: #f87171;
+  box-shadow: 0 0 8px #f87171;
+}
+
+.live-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.live-status__label {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.live-status__updated {
+  color: var(--text-dim);
+}
+
+.loading {
+  color: var(--text-dim);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.panel h2 {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.app-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.app-side {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 860px) {
+  .app-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Summary cards */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.summary-card {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summary-card__value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.summary-card__label {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+/* Office layout — single shared top-view floorplan matching the PDF:
+   3 rooms side by side, each with its own door into a corridor below,
+   the corridor holds plants + a water cooler, and one shared ENTRY at the bottom. */
+.office-floorplan {
+  position: relative;
+  background: #10151f;
+  border: 2px solid var(--panel-border);
+  border-radius: 6px;
+  padding: 0 0 48px;
+}
+
+.office-floorplan__rooms {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr 1fr;
+}
+
+.floorplan-room {
+  position: relative;
+  text-align: center;
+  padding: 12px 8px 22px;
+  border-right: 1px solid var(--panel-border);
+  border-bottom: 3px solid var(--panel-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.floorplan-room:last-child {
+  border-right: none;
+}
+
+.floorplan-room--drawing {
+  background: rgba(219, 189, 140, 0.06);
+}
+
+.floorplan-room--work1 {
+  background: rgba(180, 186, 201, 0.06);
+}
+
+.floorplan-room--work2 {
+  background: rgba(219, 189, 140, 0.06);
+}
+
+.floorplan-room__title {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin: 8px 0;
+}
+
+.floorplan-room__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.floorplan-room__row--bottom {
+  margin-top: 8px;
+}
+
+/* Door — each room has its own, centered in its bottom wall */
+.deco-door-swing {
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 12px;
+  border-left: 1.5px solid var(--text-dim);
+  border-top: 1.5px solid var(--text-dim);
+  border-radius: 100% 0 0 0;
+  background: var(--bg);
+  opacity: 0.6;
+  z-index: 1;
+}
+
+/* Corridor strip below the 3 rooms */
+.office-floorplan__corridor {
+  position: relative;
+  height: 30px;
+  border-bottom: 1px solid var(--panel-border);
+  margin: 0 4px;
+}
+
+.office-floorplan__entry {
+  position: absolute;
+  bottom: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-dim);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.entry-door {
+  width: 22px;
+  height: 3px;
+  background: var(--panel-border);
+  margin-bottom: 4px;
+}
+
+.entry-arrow {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+/* Furniture clusters — small top-view silhouettes, not just colored blocks */
+.furniture-cluster {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  margin: 6px 0;
+}
+
+.furniture-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.furniture {
+  display: inline-block;
+  opacity: 0.85;
+}
+
+/* Desk: a table-top rectangle with a monitor accent and a chair on its front edge */
+.furniture--desk {
+  position: relative;
+  width: 24px;
+  height: 15px;
+  background: var(--wood);
+  border-radius: 2px;
+  border: 1px solid #6b5138;
+  margin-bottom: 9px;
+}
+
+.furniture--screen {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 6px;
+  background: #2a3346;
+  border-radius: 1px;
+}
+
+.furniture--desk .furniture--chair {
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Chair: a seat square with a backrest bar, viewed from above */
+.furniture--chair {
+  position: relative;
+  width: 9px;
+  height: 7px;
+  background: var(--off);
+  border-radius: 1px 1px 3px 3px;
+}
+
+.furniture--chair::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 1px;
+  width: 7px;
+  height: 3px;
+  background: var(--off);
+  border-radius: 2px 2px 0 0;
+}
+
+/* Armchair: single-seat version of the sofa, with stubby armrests */
+.furniture--armchair {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  background: var(--fabric);
+  border-radius: 3px;
+}
+
+.furniture--armchair::before,
+.furniture--armchair::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  width: 3px;
+  height: 10px;
+  background: var(--fabric);
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+.furniture--armchair::before {
+  left: -3px;
+}
+
+.furniture--armchair::after {
+  right: -3px;
+}
+
+/* Sofa: a long bench with armrests at both ends */
+.furniture--sofa {
+  position: relative;
+  width: 40px;
+  height: 14px;
+  background: var(--fabric);
+  border-radius: 3px;
+}
+
+.furniture--sofa::before,
+.furniture--sofa::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 6px;
+  height: 18px;
+  background: var(--fabric);
+  border-radius: 3px;
+  opacity: 0.9;
+}
+
+.furniture--sofa::before {
+  left: -4px;
+}
+
+.furniture--sofa::after {
+  right: -4px;
+}
+
+/* Coffee table: sits in front of the sofa */
+.furniture--table {
+  width: 20px;
+  height: 10px;
+  background: var(--wood);
+  border-radius: 2px;
+  border: 1px solid #6b5138;
+}
+
+.fan-icon {
+  color: var(--off);
+  transition: color 0.3s ease;
+}
+
+.fan-icon--spinning {
+  color: var(--accent);
+}
+
+.fan-icon__blades {
+  transform-origin: 20px 20px;
+  fill: currentColor;
+}
+
+.fan-icon--spinning .fan-icon__blades {
+  animation: spin 0.9s linear infinite;
+}
+
+.fan-icon circle {
+  fill: currentColor;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.light-bulb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--off);
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.light-bulb--on {
+  background: var(--on);
+  box-shadow: 0 0 10px 3px var(--on-glow);
+}
+
+/* Device status panel */
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.room-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.room-card__header h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.room-card__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+.status-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.status-badge--healthy {
+  color: var(--status-good);
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.status-badge--warning {
+  color: var(--status-warning);
+  background: rgba(255, 159, 67, 0.14);
+}
+
+.device-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.device-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+}
+
+.device-row--on {
+  color: var(--text);
+}
+
+.device-label {
+  flex: 1;
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--off);
+}
+
+.status-dot--on {
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+}
+
+/* Power meter */
+.power-total {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.power-total__value {
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.power-total__label {
+  color: var(--text-dim);
+}
+
+.power-today {
+  color: var(--text-dim);
+  margin: 0 0 16px;
+  font-size: 0.9rem;
+}
+
+.power-bar-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 50px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.power-bar-track {
+  background: #0e1420;
+  border-radius: 6px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.power-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 6px;
+  transition: width 0.4s ease;
+}
+
+.power-bar-value {
+  text-align: right;
+  color: var(--text-dim);
+}
+
+/* Alerts */
+.alerts-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-dim);
+}
+
+.alerts-empty__icon {
+  font-size: 1.4rem;
+}
+
+.alerts-empty__title {
+  display: block;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.alerts-empty__subtitle {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.alerts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.alert-row {
+  border-left: 3px solid var(--text-dim);
+  padding: 6px 10px;
+  background: #10151f;
+  border-radius: 4px;
+}
+
+.alert-row--afterHours {
+  border-left-color: var(--alert-afterHours);
+}
+
+.alert-row--continuousRoom {
+  border-left-color: var(--alert-continuousRoom);
+}
+
+.alert-room {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.alert-message {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+}
+
+.alert-time {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 2px;
+}

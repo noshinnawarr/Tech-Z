@@ -1,0 +1,20 @@
+{
+  "name": "techz-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Real-time web dashboard for Tech-Z: live device status, power meter, and alerts, driven by a WebSocket connection to the shared backend.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.3",
+    "vite": "^8.1.3"
+  }
+}

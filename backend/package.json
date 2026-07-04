@@ -1,0 +1,17 @@
+{
+  "name": "techz-backend",
+  "version": "1.0.0",
+  "description": "Real-time backend for Tech-Z: simulated office device state, REST + WebSocket API, shared by the web dashboard and Discord bot.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2",
+    "ws": "^8.18.0"
+  }
+}
